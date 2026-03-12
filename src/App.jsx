@@ -45,7 +45,7 @@ function App() {
             <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
             <a href="#about" className="hover:text-blue-600 transition-colors">Why Us</a>
             <a 
-              href="https://vertexa-labs.com" 
+              href="https://vertexa-labs-c9fd.vercel.app/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="hover:text-blue-600 transition-colors"
