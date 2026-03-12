@@ -110,11 +110,6 @@ function App() {
                  <h3 className="text-2xl font-bold text-[#0a192f]">Experience Professional Analytics</h3>
               </div>
               
-              {/* Floating aesthetic stats badge */}
-              <div className="absolute bottom-6 right-6 bg-[#0a192f] text-white p-4 rounded-2xl shadow-xl">
-                <div className="text-xs text-blue-300 font-bold uppercase tracking-wider mb-1">Career Average</div>
-                <div className="text-3xl font-bold">48.5</div>
-              </div>
             </div>
           </div>
 
