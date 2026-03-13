@@ -29,6 +29,29 @@ const SubFeature = ({ title, description, icon: Icon }) => (
   </div>
 );
 
+const AdSense = ({ slot, format = 'auto', responsive = 'true', className = "" }) => (
+  <div className={`max-w-7xl mx-auto px-6 my-12 ${className}`}>
+    <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl p-8 flex flex-col items-center justify-center min-h-[150px] text-center">
+      <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Advertisement</div>
+      <div className="text-sm text-gray-500 italic">
+        {/* Real AdSense code would go here: */}
+        {/* 
+        <ins className="adsbygoogle"
+             style={{ display: 'block' }}
+             data-ad-client="ca-pub-YOUR_CLIENT_ID"
+             data-ad-slot={slot}
+             data-ad-format={format}
+             data-full-width-responsive={responsive}></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        */}
+        Ads will appear here once your AdSense account is approved.
+      </div>
+    </div>
+  </div>
+);
+
 function App() {
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 scroll-smooth">
@@ -157,6 +180,9 @@ function App() {
         </div>
       </section>
 
+      {/* In-feed Ad Placeholder */}
+      <AdSense slot="YOUR_SLOT_ID_1" />
+
       {/* About App / Why Us Section */}
       <section id="about" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
@@ -209,6 +235,9 @@ function App() {
           </div>
         </div>
       </section>
+
+      {/* Footer Ad Placeholder */}
+      <AdSense slot="YOUR_SLOT_ID_2" />
 
       {/* Footer / CTA block */}
       <footer className="bg-[#fafbfc] border-t border-gray-100 pt-20 pb-10">
