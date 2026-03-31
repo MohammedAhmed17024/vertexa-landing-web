@@ -1,54 +1,71 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Download, Activity, Trophy, BarChart3, FileText, ChevronRight, Shield, Layers } from 'lucide-react';
+import { 
+  Download, 
+  Activity, 
+  Trophy, 
+  BarChart3, 
+  ChevronRight, 
+  Code2, 
+  Smartphone, 
+  Globe, 
+  Mail, 
+  MapPin,
+  Github,
+  Linkedin,
+  Flame
+} from 'lucide-react';
 
-const FeatureCard = ({ icon: Icon, title, description, colorClass }) => (
+const ProjectCard = ({ title, description, image, tags, link, isReverse = false }) => (
   <motion.div 
-    whileHover={{ y: -5, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
-    className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm transition-all duration-300 flex flex-col items-center text-center h-full"
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    className={`flex flex-col ${isReverse ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 items-center mb-24`}
   >
-    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-sm ${colorClass}`}>
-      <Icon className="w-8 h-8 text-white" />
+    <div className="flex-1 w-full relative group">
+      <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-[2.5rem] opacity-10 blur-2xl group-hover:opacity-20 transition-opacity" />
+      <div className="relative overflow-hidden rounded-[2rem] border border-gray-100 shadow-2xl bg-white aspect-[16/10]">
+        <img 
+          src={image} 
+          alt={title} 
+          className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+        />
+      </div>
     </div>
-    <h3 className="text-xl font-bold text-slate-900 mb-3">{title}</h3>
-    <p className="text-slate-500 leading-relaxed max-w-sm">
-      {description}
-    </p>
+    <div className="flex-1 text-left">
+      <div className="flex flex-wrap gap-2 mb-6">
+        {tags.map((tag, i) => (
+          <span key={i} className="px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <h3 className="text-4xl font-extrabold text-[#0a192f] mb-6 leading-tight">{title}</h3>
+      <p className="text-lg text-slate-500 mb-8 leading-relaxed">
+        {description}
+      </p>
+      {link && (
+        <a 
+          href={link} 
+          download={link.endsWith('.apk') ? "VertexaStats.apk" : undefined}
+          className="inline-flex items-center gap-2 bg-[#0a192f] hover:bg-blue-600 text-white px-8 py-4 rounded-full font-bold transition-all shadow-lg hover:shadow-blue-500/25 group"
+        >
+          {link.endsWith('.apk') ? <Download className="w-5 h-5" /> : "View Project"}
+          <span>{link.endsWith('.apk') ? "Download APK" : "Learn More"}</span>
+          <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+        </a>
+      )}
+    </div>
   </motion.div>
 );
 
-const SubFeature = ({ title, description, icon: Icon }) => (
-  <div className="flex gap-4 p-6 rounded-2xl border border-gray-100 bg-white hover:shadow-md transition-shadow">
-    <div className="w-12 h-12 rounded-full bg-[#f4f7fa] flex flex-shrink-0 items-center justify-center text-blue-600">
-      <Icon className="w-6 h-6" />
+const SkillBadge = ({ name, icon: Icon }) => (
+  <div className="flex flex-col items-center gap-4 p-8 rounded-3xl border border-gray-100 bg-white hover:shadow-xl transition-all duration-300 group">
+    <div className="w-16 h-16 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+      <Icon className="w-8 h-8" />
     </div>
-    <div>
-      <h4 className="text-lg font-bold text-slate-900 mb-1">{title}</h4>
-      <p className="text-slate-500 text-sm leading-relaxed">{description}</p>
-    </div>
-  </div>
-);
-
-const AdSense = ({ slot, format = 'auto', responsive = 'true', className = "" }) => (
-  <div className={`max-w-7xl mx-auto px-6 my-12 ${className}`}>
-    <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl p-8 flex flex-col items-center justify-center min-h-[150px] text-center">
-      <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Advertisement</div>
-      <div className="text-sm text-gray-500 italic">
-        {/* Real AdSense code would go here: */}
-        {/* 
-        <ins className="adsbygoogle"
-             style={{ display: 'block' }}
-             data-ad-client="ca-pub-YOUR_CLIENT_ID"
-             data-ad-slot={slot}
-             data-ad-format={format}
-             data-full-width-responsive={responsive}></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        */}
-        Ads will appear here once your AdSense account is approved.
-      </div>
-    </div>
+    <span className="font-bold text-[#0a192f]">{name}</span>
   </div>
 );
 
@@ -56,213 +73,164 @@ function App() {
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 scroll-smooth">
       
-      {/* Navbar */}
+      {/* Navigation */}
       <nav className="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <span className="text-2xl font-bold tracking-tight text-[#0a192f]">
-              Vertexa<span className="text-blue-500">Stats</span>
+            <span className="text-2xl font-black tracking-tight text-[#0a192f]">
+              M<span className="text-blue-600">.</span>Ahmed
             </span>
           </div>
-          <div className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
-            <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
-            <a href="#about" className="hover:text-blue-600 transition-colors">Why Us</a>
-            <a 
-              href="https://vertexa-labs-c9fd.vercel.app/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="hover:text-blue-600 transition-colors"
-            >
-              Vertexa Labs
-            </a>
-            <a href="/app.apk" download="VertexaStats.apk" className="bg-[#0a192f] hover:bg-blue-600 text-white px-5 py-2.5 rounded-full transition-colors flex items-center gap-2">
-              <Download className="w-4 h-4" /> Download APK
-            </a>
+          <div className="hidden md:flex items-center gap-8 text-sm font-bold text-slate-600">
+            <a href="#projects" className="hover:text-blue-600 transition-colors uppercase tracking-widest text-[11px]">Projects</a>
+            <a href="#about" className="hover:text-blue-600 transition-colors uppercase tracking-widest text-[11px]">About</a>
+            <a href="#skills" className="hover:text-blue-600 transition-colors uppercase tracking-widest text-[11px]">Skills</a>
+            <a href="#contact" className="bg-[#0a192f] hover:bg-blue-600 text-white px-6 py-2.5 rounded-full transition-all uppercase tracking-widest text-[11px]">Contact</a>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        {/* Subtle background glow */}
+      <section className="relative pt-40 pb-20 lg:pt-56 lg:pb-32 overflow-hidden">
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-blue-50/50 blur-3xl -z-10" />
-        
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
-          
-          <div className="flex-1 text-center md:text-left z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-sm font-bold tracking-wide uppercase mb-8">
-              INNOVATION MEETS EXCELLENCE
-            </div>
-            
-            <h1 className="text-5xl lg:text-[5.5rem] font-extrabold tracking-tight mb-8 leading-[1.1] text-[#0a192f]">
-              Master Your <br className="hidden lg:block"/>
-              <span className="text-blue-600">Cricket</span> Stats.
-            </h1>
-            
-            <p className="text-lg md:text-xl text-slate-500 mb-12 max-w-2xl leading-relaxed mx-auto md:mx-0">
-              VertexaStats transforms your local cricket performance into professional insights. We bridge the gap between amateur play and pro-level analytics.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
-              <a 
-                href="/app.apk" 
-                download="VertexaStats.apk"
-                className="bg-[#0a192f] hover:bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg flex items-center gap-2 transition-all shadow-lg hover:shadow-blue-500/25 w-full sm:w-auto justify-center group"
-              >
-                <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" /> 
-                Download APK
-              </a>
-              <a 
-                href="#features"
-                className="bg-white border-2 border-gray-100 hover:border-gray-200 text-[#0a192f] px-8 py-4 rounded-full font-bold text-lg flex items-center gap-2 transition-all w-full sm:w-auto justify-center"
-              >
-                Explore Features <ChevronRight className="w-5 h-5" />
-              </a>
+        <div className="max-w-7xl mx-auto px-6 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-xs font-black tracking-widest uppercase mb-8">
+            <Flame className="w-4 h-4" /> Available for New Projects
+          </div>
+          <h1 className="text-6xl lg:text-[7rem] font-black tracking-tighter mb-8 leading-[0.9] text-[#0a192f]">
+            Building the <br />
+            <span className="text-blue-600">Future</span> of Sport.
+          </h1>
+          <p className="text-xl md:text-2xl text-slate-500 mb-12 max-w-2xl leading-relaxed">
+            I'm a full-stack developer dedicated to creating premium, high-performance software for the cricket community.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <a href="#projects" className="bg-[#0a192f] hover:bg-blue-600 text-white px-10 py-5 rounded-full font-bold text-lg transition-all shadow-xl hover:shadow-blue-500/40 w-full sm:w-auto text-center">
+              View Work
+            </a>
+            <div className="flex items-center gap-6">
+              <a href="#" className="p-3 hover:text-blue-600 transition-colors"><Github className="w-6 h-6" /></a>
+              <a href="#" className="p-3 hover:text-blue-600 transition-colors"><Linkedin className="w-6 h-6" /></a>
+              <a href="mailto:contact@vertexalabs.com" className="p-3 hover:text-blue-600 transition-colors"><Mail className="w-6 h-6" /></a>
             </div>
           </div>
-
-          <div className="flex-1 relative w-full max-w-xl hidden md:block">
-            {/* The beautiful image/video card placeholder from design */}
-            <div className="bg-[#f8fafc] rounded-[2.5rem] p-8 aspect-video flex items-center justify-center relative overflow-hidden shadow-2xl shadow-blue-900/5">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-white/50" />
-              
-              <div className="relative z-10 text-center flex flex-col items-center">
-                 <div className="w-20 h-20 bg-white rounded-3xl shadow-lg flex items-center justify-center mb-6 transform rotate-3">
-                   <Activity className="w-10 h-10 text-blue-600" />
-                 </div>
-                 <h3 className="text-2xl font-bold text-[#0a192f]">Experience Professional Analytics</h3>
-              </div>
-              
-            </div>
-          </div>
-
         </div>
       </section>
 
-      {/* Features Grid Section */}
-      <section id="features" className="py-24 bg-[#fafbfc]">
+      {/* Projects Section */}
+      <section id="projects" className="py-32 bg-[#fafbfc]">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-[2.75rem] font-bold text-[#0a192f] mb-6 tracking-tight leading-tight">
-              Technological Solutions for Modern Cricketers
-            </h2>
-            <p className="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
-              We leverage the best industry practices to build tools that stand out. Track, analyze, and elevate your game like never before.
-            </p>
+          <div className="mb-24 max-w-3xl">
+            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-blue-600 mb-4">Featured Work</h2>
+            <h3 className="text-5xl font-extrabold text-[#0a192f]">Crafting Digital Experiences with Precision.</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <FeatureCard 
-              icon={BarChart3} 
-              title="Deep Analytics" 
-              description="Professional, SEO-optimized, and lightning-fast web applications built with the latest frameworks."
-              colorClass="bg-[#3b82f6]" 
-            />
-            <FeatureCard 
-              icon={FileText} 
-              title="PDF Exports" 
-              description="Beautiful, high-performance cross-platform mobile apps for iOS and Android from a single codebase."
-              colorClass="bg-[#0ea5e9]" 
-            />
-            <FeatureCard 
-              icon={Trophy} 
-              title="Achievements" 
-              description="User-centric design that balances aesthetics with functionality to create memorable digital experiences."
-              colorClass="bg-[#6366f1]" 
-            />
-            <FeatureCard 
-              icon={Layers} 
-              title="Cloud Sync" 
-              description="Scalable, secure server-side solutions and robust API architectures to power your application."
-              colorClass="bg-[#0f172a]" 
-            />
+          <ProjectCard 
+            title="Cricket Stats App (VertexaStats)"
+            description="The ultimate premium cricket tracker and analyzer. Features real-time match tracking, detailed career analytics, automatic achievement unlocking, and beautiful PDF exports. Built for cricketers who want to master their game."
+            image="/projects/stats_mockup.png"
+            tags={["Flutter", "Firebase", "PDF Generation", "Cloud Sync"]}
+            link="/app.apk"
+          />
+
+          <ProjectCard 
+            title="Cricket Auction Simulator"
+            description="A high-stakes, real-time auction simulation platform. Integrated with advanced AI bidding logic, live room updates, and comprehensive player comparison screens. Designed to provide an authentic auction experience."
+            image="/projects/auction_mockup.png"
+            tags={["React", "Framer Motion", "Real-time AI", "Tailwind CSS"]}
+            isReverse={true}
+          />
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-32 bg-white overflow-hidden relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col lg:flex-row items-center gap-20">
+            <div className="flex-1">
+              <h2 className="text-sm font-black uppercase tracking-[0.3em] text-blue-600 mb-4">About Me</h2>
+              <h3 className="text-5xl font-extrabold text-[#0a192f] mb-8">Passionate Developer Based in Rahim Yar Khan.</h3>
+              <p className="text-lg text-slate-500 leading-relaxed mb-10">
+                I am a professional software developer with a deep passion for the intersection of technology and sports. Based in Pakistan, I specialize in building robust, user-centric applications that solve real-world problems.
+              </p>
+              <div className="grid grid-cols-2 gap-8 py-8 border-y border-gray-100">
+                <div>
+                  <h4 className="text-2xl font-bold text-[#0a192f] mb-2">50+</h4>
+                  <p className="text-slate-500 text-sm font-bold uppercase tracking-widest">Projects Delivered</p>
+                </div>
+                <div>
+                  <h4 className="text-2xl font-bold text-[#0a192f] mb-2">3+</h4>
+                  <p className="text-slate-500 text-sm font-bold uppercase tracking-widest">Years Experience</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex-1 w-full bg-[#f8fafc] rounded-[3rem] p-16 relative">
+              <div className="absolute top-0 right-0 p-8">
+                 <MapPin className="text-blue-200 w-32 h-32" />
+              </div>
+              <div className="relative z-10">
+                <div className="inline-flex p-4 rounded-2xl bg-white shadow-xl mb-6">
+                  <Globe className="text-blue-600 w-8 h-8" />
+                </div>
+                <h4 className="text-2xl font-bold text-[#0a192f] mb-4">Remote Ready</h4>
+                <p className="text-slate-500">I collaborate with clients and teams worldwide from my base in Rahim Yar Khan, Pakistan.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* In-feed Ad Placeholder */}
-      <AdSense slot="YOUR_SLOT_ID_1" />
-
-      {/* About App / Why Us Section */}
-      <section id="about" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
-          
-          <div className="flex-1 w-full bg-[#f8fafc] rounded-[3rem] p-12 relative overflow-hidden min-h-[500px] flex items-center justify-center text-center">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent" />
-            <div className="relative z-10 flex flex-col items-center">
-               <div className="w-24 h-24 bg-blue-100/50 rounded-full flex items-center justify-center mb-6">
-                 <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-                   <Shield className="w-8 h-8" />
-                 </div>
-               </div>
-               <h3 className="text-2xl font-bold text-[#0a192f] mb-2">Secure & Reliable</h3>
-               <p className="text-blue-600 font-medium">Your Data, Safe.</p>
-            </div>
-          </div>
-
-          <div className="flex-1">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#0a192f] mb-6 tracking-tight">
-              Innovation Rooted in Passion, Serving the Players
-            </h2>
-            <p className="text-slate-500 text-lg leading-relaxed mb-10">
-              VertexaStats is a premier analytics hub designed for cricketers. We specialize in empowering local players to understand their game and achieve success through world-class digital solutions.
-            </p>
-
-            <div className="grid sm:grid-cols-2 gap-6 mb-10">
-               <div className="bg-[#f8fafc] p-6 rounded-2xl border border-gray-100">
-                 <h4 className="font-bold text-[#0a192f] mb-2">Mission</h4>
-                 <p className="text-slate-500 text-sm">To empower cricketers through cutting-edge analytics and human-centric design.</p>
-               </div>
-               <div className="bg-[#f8fafc] p-6 rounded-2xl border border-gray-100">
-                 <h4 className="font-bold text-[#0a192f] mb-2">Vision</h4>
-                 <p className="text-slate-500 text-sm">To be the global benchmark for digital sports innovation and excellence.</p>
-               </div>
-            </div>
-
-            <div className="space-y-4">
-              <SubFeature 
-                icon={Activity} 
-                title="Performance Tracking" 
-                description="We track every run, wicket, and strike rate so you can focus on playing." 
-              />
-              <SubFeature 
-                icon={Layers} 
-                title="Scalable Architecture" 
-                description="Built on robust backend systems to ensure your stats are always available." 
-              />
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Footer Ad Placeholder */}
-      <AdSense slot="YOUR_SLOT_ID_2" />
-
-      {/* Footer / CTA block */}
-      <footer className="bg-[#fafbfc] border-t border-gray-100 pt-20 pb-10">
+      {/* Skills Section */}
+      <section id="skills" className="py-32 bg-[#020617] text-white">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          
-          <h2 className="text-3xl md:text-4xl font-bold text-[#0a192f] mb-6">Ready to download the App?</h2>
-          <p className="text-slate-500 mb-10 max-w-xl mx-auto">Join thousands of players transforming their game with professional grade statistics and insights.</p>
-          
-          <a href="/app.apk" download="VertexaStats.apk" className="inline-flex items-center justify-center bg-[#0a192f] text-white px-10 py-4 font-bold rounded-full hover:bg-blue-600 transition-colors mb-20 shadow-xl shadow-slate-200">
-            Download VertexaStats Free
-          </a>
-
-          <div className="border-t border-gray-200 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-bold tracking-tight text-[#0a192f]">
-                Vertexa<span className="text-blue-500">Labs</span>
-              </span>
+          <div className="mb-24">
+            <h2 className="text-sm font-black uppercase tracking-[0.3em] text-blue-600 mb-4">Expertise</h2>
+            <h3 className="text-5xl font-extrabold text-white">My Technical Toolkit.</h3>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="p-10 rounded-3xl border border-slate-800 bg-slate-900/50 hover:bg-blue-600 transition-all group">
+              <Smartphone className="w-12 h-12 mx-auto mb-6 text-blue-500 group-hover:text-white transition-colors" />
+              <h4 className="font-bold">Flutter/Dart</h4>
             </div>
-            
-            <p className="text-slate-500 text-sm font-medium">
-              © {new Date().getFullYear()} Vertexa Labs. All rights reserved.
-            </p>
+            <div className="p-10 rounded-3xl border border-slate-800 bg-slate-900/50 hover:bg-blue-600 transition-all group">
+              <Code2 className="w-12 h-12 mx-auto mb-6 text-blue-500 group-hover:text-white transition-colors" />
+              <h4 className="font-bold">React.js</h4>
+            </div>
+            <div className="p-10 rounded-3xl border border-slate-800 bg-slate-900/50 hover:bg-blue-600 transition-all group">
+              <BarChart3 className="w-12 h-12 mx-auto mb-6 text-blue-500 group-hover:text-white transition-colors" />
+              <h4 className="font-bold">Firebase</h4>
+            </div>
+            <div className="p-10 rounded-3xl border border-slate-800 bg-slate-900/50 hover:bg-blue-600 transition-all group">
+              <Trophy className="w-12 h-12 mx-auto mb-6 text-blue-500 group-hover:text-white transition-colors" />
+              <h4 className="font-bold">Redux/Riverpod</h4>
+            </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-40 bg-white">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-6xl font-black text-[#0a192f] mb-12 tracking-tight">Let's work together.</h2>
+          <p className="text-2xl text-slate-500 mb-16 leading-relaxed">
+            Have a project in mind or just want to say hi? <br />
+            I'm always open to new opportunities and collaborations.
+          </p>
+          <a href="mailto:contact@vertexalabs.com" className="inline-flex items-center gap-4 bg-[#0a192f] text-white px-12 py-6 rounded-full font-bold text-xl hover:bg-blue-600 transition-all shadow-2xl hover:shadow-blue-500/40">
+            Send a Message <Activity className="w-6 h-6" />
+          </a>
+          <div className="mt-24 pt-24 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-10">
+            <div className="text-left font-bold text-slate-400 uppercase tracking-widest text-xs">
+              Base: Rahim Yar Khan, PK
+            </div>
+            <div className="flex gap-8">
+              <a href="#" className="font-bold text-[#0a192f] hover:text-blue-600 transition-colors uppercase tracking-widest text-[11px]">Git</a>
+              <a href="#" className="font-bold text-[#0a192f] hover:text-blue-600 transition-colors uppercase tracking-widest text-[11px]">Ln</a>
+              <a href="#" className="font-bold text-[#0a192f] hover:text-blue-600 transition-colors uppercase tracking-widest text-[11px]">Tw</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
     </div>
   );
