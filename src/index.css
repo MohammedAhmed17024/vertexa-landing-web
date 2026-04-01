@@ -2,14 +2,22 @@
 
 @layer base {
   body {
-    @apply bg-slate-950 text-slate-50 antialiased overflow-x-hidden;
+    @apply bg-[#020617] text-slate-200 antialiased overflow-x-hidden selection:bg-blue-500/30 font-sans;
   }
 }
 
-.glass-panel {
-  @apply bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl;
+.glass-card {
+  @apply bg-white/5 backdrop-blur-2xl border border-white/10 shadow-2xl;
 }
 
 .text-gradient {
-  @apply bg-gradient-to-r from-purple-400 via-pink-500 to-indigo-400 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-400 bg-clip-text text-transparent;
+}
+
+.nav-blur {
+  @apply bg-[#020617]/80 backdrop-blur-md border-b border-white/5;
+}
+
+.bottom-nav {
+  @apply fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-6 py-4 rounded-full glass-card flex items-center gap-10 sm:hidden;
 }
